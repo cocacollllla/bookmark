@@ -14,7 +14,7 @@ ${reset}
 
   html, body{
     font-family: 'Noto Sans KR', sans-serif;
-    height: 100%;
+    // height: 100%;
   }
 
 	a{
@@ -27,6 +27,24 @@ ${reset}
     padding: .5rem;
     border-radius: 5px;
     border: 1px solid #ddd;
+  }
+
+  .btn {
+    margin-top: 20px;
+    padding: 15px 0;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    font-weight: 500;
+  }
+
+  .uploadBtn {
+    background-color: #666BDB;
+  }
+
+  .deleteBtn {
+    margin-top: 10px;
+    background-color: #EC8787;
   }
 `;
 
