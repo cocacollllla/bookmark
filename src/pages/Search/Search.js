@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useNavigate, useLocation} from 'react-router-dom';
+import { useLocation} from 'react-router-dom';
 import Loading from '../../components/Loading';
 import Target from './Target';
 import { bookApi } from '../../api/axios';
@@ -13,7 +13,6 @@ const Search = () => {
 
   const [totalResult, setTotalResult] = useState(null);
 
-  const navigate = useNavigate();
   const location = useLocation();
   const keyword = location.state;
 
@@ -36,18 +35,19 @@ const Search = () => {
     }
 
 
-    if(totalResult !== searchResultList.length) {
+
       if(keyword !== null){
         getData();
         console.log(keyword);
       }
-    }
+  
 
   }, [page, keyword])
 
   useEffect(() => {
     setPage(1);
     setTotalResult(null);
+    setSearchResultList([]);
   }, [keyword]);
 
 
@@ -63,7 +63,7 @@ const Search = () => {
           <BookList keyword={keyword === null || searchResultList.length === 0}>
             <ListResult bookList={searchResultList} />
           </BookList>
-          <Target loading={loading} setPage={setPage} />
+          {totalResult !== searchResultList.length && <Target loading={loading} setPage={setPage} />}
         </>
       )
       }  

@@ -20,6 +20,7 @@ const Recording = () => {
   const navigate = useNavigate();
 
   const isbn = params.isbn;
+  const state = params.state;
 
   const useList = {
     image: '',
@@ -31,50 +32,52 @@ const Recording = () => {
 
   useEffect(() => {
     setLoading(true);
-    const getBookInfo = async () => {
-      const book = await bookApi.info(isbn);
-      const defaultData = book.data.item[0];
-      setBookInfo({title: defaultData.title, author: defaultData.author, cover: defaultData.cover, isbn13: defaultData.isbn13, publisher: defaultData.publisher, star: null, memo: '', startDate: new Date(), endDate: new Date(), creationData: null});
-      console.log('지금');
-      setLoading(false);
-    };
-    getBookInfo();
-
-  }, [isbn]);
+    if(state === 'write'){
+      const getBookInfo = async () => {
+        const book = await bookApi.info(isbn);
+        setBookInfo({...book.data.item[0], star: null, memo: '', startDate: new Date(), endDate: new Date(), creationData: null});
+        setLoading(false);
+      };
+      getBookInfo();
+    } else {
+      dbService.collection('test').doc(isbn).get().then((doc) => {
+        const data = doc.data();
+        delete data.bookmark;
+        setBookInfo(data);
+        setBookmark(doc.data().bookmark);
+        setLoading(false);
+      });
+    }
+    
+  }, [isbn, state]);
 
 
   useEffect(() => {
-    setBookmark([{...useList}]);
-  }, [])
+    if(state === 'write'){
+      setBookmark([{image: '', text: '', page: '', string: true, id: 0}]);
+    }
+  }, [state])
 
   const addToList = () => {
     const copyData = {...useList};
-
     copyData.id = bookmark.length;
     setBookmark(bookmark.concat(copyData));
-
   }
 
   const handleChangeBookmark = (e, id) => {
     const { value, name } = e.target;
-
     const idx = bookmark.findIndex(el => el.id === id);
     const copyData = [...bookmark];
     copyData[idx] = {...copyData[idx], [name]: value};
     setBookmark(copyData);
-
   }
 
   const handleChangeInfo = (e) => {
     const { value, name } = e.target;
-   
-      setBookInfo({...bookInfo, [name]: value})
- 
-    
+    setBookInfo({...bookInfo, [name]: value})
   }
 
   const trans = (id, string) => {
-  
     const idx = bookmark.findIndex(el => el.id === id);
     const copyData = [...bookmark];
     let obj = copyData[idx];
@@ -87,7 +90,6 @@ const Recording = () => {
     }
     copyData[idx] = {...obj, string: !string};
     setBookmark(copyData);
-    
   }
 
   const onFileChange = (e, id) => {
@@ -191,7 +193,7 @@ const Recording = () => {
 
             <Bookmark bookmark={bookmark} trans={trans} addToList={addToList} handleChange={handleChangeBookmark} onFileChange={onFileChange} />
           </RecordingBox>   
-          <div className="btn uploadBtn" onClick={onSubmit}>독서 기록하기</div>
+          <div className="btn uploadBtn" onClick={onSubmit}>{state === 'write' ? '독서 기록하기' : '수정하기'}</div>
         </>
         }
       </>
