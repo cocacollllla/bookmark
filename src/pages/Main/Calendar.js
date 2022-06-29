@@ -6,7 +6,6 @@ import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 const Calendar = ({value, jumpToMonth, returnToday, handleClickDay, bookList}) => {
   const [calendar, setCalendar] = useState([]);
 
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,20 +23,16 @@ const Calendar = ({value, jumpToMonth, returnToday, handleClickDay, bookList}) =
 
   }, [value]);
 
-
-
   function grayed(day) {
     return value.format('MM') !== day.format('MM')
   }
 
-
-
-  function dayStyles(day, value, todolist) {
+  function dayStyles(day) {
     if(grayed(day)) return 'grayed';
     return ''
   }
 
-  const todoDoneState = (day, bookList) => {
+  const endDayCover = (day, bookList) => {
     const list = bookList.filter(el => el.endDate === day.format('YYYY.MM.DD'));
    
     if(list.length > 0){
@@ -74,9 +69,9 @@ const Calendar = ({value, jumpToMonth, returnToday, handleClickDay, bookList}) =
           <Week key={week}>
           {week.map(day => 
             <Day key={day} onClick={() => handleClickDay(day)}>
-              <div className={dayStyles(day, value, bookList)} id="day">
+              <div className={dayStyles(day)} id="day">
                 <span>{day.format('D').toString()}</span>
-                {todoDoneState(day, bookList)}
+                {endDayCover(day, bookList)}
               </div>
             </Day>)}
           </Week>)}
@@ -96,7 +91,7 @@ const Dayweek = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: .8rem;
+  font-size: .7rem;
   div {
     padding: 1rem 0;
     &:first-of-type span{
@@ -157,7 +152,7 @@ const Day = styled.div`
     padding: 3px 10px;
 
     span {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
   }
   

@@ -19,8 +19,6 @@ const BookInfo = () => {
     getBookInfo();
   }, [isbn]);
 
-  console.log(isbn);
-
   return (
     <BookInfoWrap>
 

@@ -14,18 +14,6 @@ const List = ({bookList}) => {
 
 
   useEffect(() => {
-  
-    // const getData = async () => {
-  
-    //   const result = await dbService.collection('test').get();
-    //   let productItems = [];
-    //   result.forEach((doc) => {
-    //     productItems = [...productItems, { docId:doc.id, ...doc.data()} ]
-    //   });
-    //   setFilterDataOrigin(productItems);
-    // }
-
-
     if(pathname === '/list'){
       // getData();
       dbService.collection('test').get().then((querySnapshot) => {
@@ -36,7 +24,6 @@ const List = ({bookList}) => {
         setFilterDataOrigin(productItems);
       });
     }
-    console.log('dd');
     
   }, [pathname]);
 

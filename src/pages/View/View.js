@@ -35,6 +35,10 @@ const View = () => {
   }
 
 
+
+
+
+
   return (
     <ViewWrap>
       {loading ? <Loading full={true} /> : 

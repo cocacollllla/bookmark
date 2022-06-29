@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useLocation} from 'react-router-dom';
 import Loading from '../../components/Loading';
 import Target from './Target';
+import { BsArrowUpCircleFill } from "react-icons/bs";
 import { bookApi } from '../../api/axios';
 import styled from 'styled-components';
 import ListResult from '../../components/ListResult';
@@ -10,7 +11,6 @@ const Search = () => {
   const [searchResultList, setSearchResultList] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
   const [totalResult, setTotalResult] = useState(null);
 
   const location = useLocation();
@@ -34,14 +34,10 @@ const Search = () => {
       setLoading(false);
     }
 
-
-
-      if(keyword !== null){
-        getData();
-        console.log(keyword);
-      }
+    if(keyword !== null){
+      getData();
+    }
   
-
   }, [page, keyword])
 
   useEffect(() => {
@@ -51,8 +47,9 @@ const Search = () => {
   }, [keyword]);
 
 
-
-  console.log(page);
+  const scrollToTop = () => {
+    window.scrollTo({top: 0,behavior: "smooth"})
+  }
 
   return (
     <SearchWrap>
@@ -62,6 +59,7 @@ const Search = () => {
         <>
           <BookList keyword={keyword === null || searchResultList.length === 0}>
             <ListResult bookList={searchResultList} />
+            {page >= 2 && <BsArrowUpCircleFill className="topBtn" onClick={scrollToTop} />}
           </BookList>
           {totalResult !== searchResultList.length && <Target loading={loading} setPage={setPage} />}
         </>
@@ -79,5 +77,13 @@ const SearchWrap = styled.div`
 
 const BookList = styled.div`
   height: ${props => props.keyword ? "100vh" : "auto"};
+
+  .topBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: ${(props) => props.theme.mainColor};
+  }
 `;
 

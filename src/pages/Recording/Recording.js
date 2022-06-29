@@ -33,9 +33,22 @@ const Recording = () => {
   useEffect(() => {
     setLoading(true);
     if(state === 'write'){
+      
       const getBookInfo = async () => {
         const book = await bookApi.info(isbn);
-        setBookInfo({...book.data.item[0], star: null, memo: '', startDate: new Date(), endDate: new Date(), creationData: null});
+        const booki = book.data.item[0];
+        setBookInfo({
+          title: booki.title, 
+          author: booki.author, 
+          cover: booki.cover, 
+          description: booki.description, 
+          isbn13: booki.isbn13, 
+          publisher: booki.publisher, 
+          star: null, memo: '', 
+          startDate: new Date(), 
+          endDate: new Date(), 
+          creationData: null
+        });
         setLoading(false);
       };
       getBookInfo();
@@ -77,18 +90,21 @@ const Recording = () => {
     setBookInfo({...bookInfo, [name]: value})
   }
 
-  const trans = (id, string) => {
+  const trans = (id) => {
     const idx = bookmark.findIndex(el => el.id === id);
     const copyData = [...bookmark];
     let obj = copyData[idx];
-
     if(obj.text !== '' || obj.image !== ''){
       const ok = window.confirm('작성한 데이터가 초기화 됩니다. 바꾸시겠습니까?');
       if(ok) {
         obj.string ? obj.text = '' : obj.image = '' ;
+        obj.string = !obj.string;
       }
+    } else {
+      obj.string = !obj.string;
     }
-    copyData[idx] = {...obj, string: !string};
+    
+    copyData[idx] = {...obj, string: obj.string};
     setBookmark(copyData);
   }
 
@@ -150,8 +166,6 @@ const Recording = () => {
       console.log(err);
     }  
   }
-
- console.log(bookInfo);
 
   return (
     <RecordingWrap>

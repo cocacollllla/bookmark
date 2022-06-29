@@ -7,7 +7,6 @@ const ListResult = ({bookList}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const pathname = location.pathname;
-  console.log(bookList);
   return (
     <>
     {bookList.map((book, idx) => (

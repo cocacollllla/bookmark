@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FaBookmark } from "react-icons/fa";
 import { MdArrowBackIosNew } from "react-icons/md";
@@ -12,6 +12,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentMenu = location.pathname.split('/')[1];
+
+  const nameInput = useRef();
   
 
   const handleInput = (e) => {
@@ -24,24 +26,37 @@ const Header = () => {
   }
 
   const searchHandler = () => {
-    if(searchKeyword === ''){
+    if(!searchKeyword){
       alert('검색어를 입력해주세요')
     } else {
-      navigate('/search', {state: searchKeyword})
+      navigate(currentMenu === 'search' ? '/search' : '/list', {state: searchKeyword});
+      nameInput.current.blur();
     }
   }
 
+  useEffect(() => {
+    if(currentMenu === 'search' || currentMenu === 'list'){
+      nameInput.current.focus();
+    }
+  }, [currentMenu]);
+
+
   return (
+
     <HeaderWrap>
-      <Logo>{currentMenu === '' ? <FaBookmark className="icon logo" /> : <MdArrowBackIosNew className="icon back" onClick={() => currentMenu === 'search' ? navigate('/') : navigate(-1)} />}</Logo>
-      <TitleBox>
-        {currentMenu === '' && <SearchBox><Title>내 기록</Title><HiOutlineSearch className="icon search" /></SearchBox>}
-        {currentMenu === 'search' && <SearchBox><input type="text" onChange={handleInput} onKeyPress={handleOnKeyPress} autoFocus /><HiOutlineSearch className="icon search" onClick={searchHandler} /></SearchBox>}
-        {currentMenu === 'bookinfo' && <Title>도서정보</Title>}
-        {currentMenu === 'recording' && <Title>독서 기록하기</Title>}
-        {currentMenu !== '' && currentMenu !== 'search' && currentMenu !== 'bookinfo' && currentMenu !== 'recording' && <Title>책 제목</Title>}
-      </TitleBox>
-    </HeaderWrap>
+    <Logo>{currentMenu === '' ? <FaBookmark className="icon logo" /> : <MdArrowBackIosNew className="icon back" onClick={() => currentMenu === 'search' || currentMenu ===  'list' ? navigate('/') : navigate(-1)} />}</Logo>
+    <TitleBox>
+      {currentMenu === '' && <SearchBox><Title>내 기록</Title><HiOutlineSearch className="icon search" onClick={() => navigate('/list')} /></SearchBox>}
+      {(currentMenu === 'search' || currentMenu === 'list') && 
+        <SearchBox>
+          <input type="text" onChange={handleInput} onKeyPress={handleOnKeyPress} placeholder={currentMenu === 'search' ? '알라딘에서 검색' : '내 독서기록에서 검색'} ref={nameInput} />
+          <HiOutlineSearch className="icon search" onClick={searchHandler} />
+        </SearchBox>}
+      {currentMenu === 'bookinfo' && <Title>도서정보</Title>}
+      {currentMenu === 'recording' && <Title>독서 기록하기</Title>}
+      {/* {currentMenu !== '' && currentMenu !== 'search' && currentMenu !== 'bookinfo' && currentMenu !== 'recording' && <Title>책 제목</Title>} */}
+    </TitleBox>
+  </HeaderWrap>
   )
 }
 
@@ -50,13 +65,13 @@ export default Header;
 const HeaderWrap = styled.div`
   display: flex;
   width: 100%;
-  height: 60px;
+  height: 55px;
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid #ddd;
   background-color: white;
   position: fixed;
-  top: 0;
+  top: -1px;
   z-index: 9;
 
   .icon {

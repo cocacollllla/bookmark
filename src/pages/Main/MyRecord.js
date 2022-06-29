@@ -103,7 +103,7 @@ const AddBook = styled.div`
   text-align: center;
   
   .addBook {
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: ${(props) => props.theme.mainColor};
   }
 `;

@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const Loading = ({full}) => {
-  console.log(full);
   return (
     <LoadingWrap full={full}>
       <div>

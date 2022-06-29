@@ -12,7 +12,7 @@ const BookMark = ({bookmark, trans, addToList, handleChange, onFileChange}) => {
       <div>
         {bookmark.map((el, idx) => (
           <BookmarkBox key={el.id}>
-            <div className="textChange" onClick={() => trans(el.id, el.string)}><span>{el.string ? '이미지' : '텍스트'}</span></div>
+            <div className="textChange" onClick={() => trans(el.id)}><span>{el.string ? '이미지' : '텍스트'}</span></div>
             {el.string ? (
               <div className="textBox"><textarea onChange={(e) => handleChange(e, el.id)} name="text" defaultValue={el.text}></textarea></div>
             ) : (

@@ -3,7 +3,6 @@ import { authorSlice } from '../util/util';
 import styled from 'styled-components';
 
 const BookInfoTop = ({bookInfo, children}) => {
-  console.log(bookInfo);
   return (
     <InfoTop>
       <Cover><img src={bookInfo.cover} alt="도서 커버" /></Cover>
