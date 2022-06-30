@@ -53,7 +53,7 @@ const Recording = () => {
       };
       getBookInfo();
     } else {
-      dbService.collection('test').doc(isbn).get().then((doc) => {
+      dbService.collection('book').doc(isbn).get().then((doc) => {
         const data = doc.data();
         delete data.bookmark;
         setBookInfo(data);
@@ -137,7 +137,7 @@ const Recording = () => {
           if(!el.image.includes('https')){
             let loloca = storageService.ref();
             let nameT = Math.random();
-            let please = await loloca.child(`test/${nameT}`).putString(el.image, 'data_url');
+            let please = await loloca.child(`book/${nameT}`).putString(el.image, 'data_url');
             photoURL = await please.ref.getDownloadURL();
             el.image = photoURL;
           }
@@ -157,7 +157,7 @@ const Recording = () => {
         bookmark: filterObj
       }
 
-      await dbService.collection("test").doc(isbn).set(objobj);
+      await dbService.collection("book").doc(isbn).set(objobj);
       setLoading(false);
       alert('저장 되었습니다.');
       navigate(`/`);

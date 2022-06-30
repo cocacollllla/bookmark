@@ -11,12 +11,9 @@ const List = ({bookList}) => {
   const keyword = location.state;
   const pathname = location.pathname;
 
-
-
   useEffect(() => {
     if(pathname === '/list'){
-      // getData();
-      dbService.collection('test').get().then((querySnapshot) => {
+      dbService.collection('book').get().then((querySnapshot) => {
         let productItems = [];
         querySnapshot.forEach((doc) => {
           productItems = [...productItems, { docId:doc.id, ...doc.data()} ]
@@ -30,8 +27,8 @@ const List = ({bookList}) => {
   useEffect(() => {
     if(keyword !== null){
 
-      const test = filterDataOrigin.filter(el => el.title.includes(keyword));
-      setFilterData(test);
+      const data = filterDataOrigin.filter(el => el.title.includes(keyword));
+      setFilterData(data);
     }
     
   }, [keyword, filterDataOrigin]);

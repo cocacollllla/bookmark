@@ -16,7 +16,7 @@ const View = () => {
 
   useEffect(() => {
     setLoading(true);
-    dbService.collection('test').doc(id).get().then((doc) => {
+    dbService.collection('book').doc(id).get().then((doc) => {
       setBookInfo(doc.data());
       setLoading(false);
     });
@@ -27,7 +27,7 @@ const View = () => {
     const ok = window.confirm('정말 삭제하시겠습니까?');
     if(ok){
       setLoading(true);
-      dbService.collection('test').doc(id).delete();
+      dbService.collection('book').doc(id).delete();
       setLoading(false);
       navigate(`/`);
     }
@@ -55,7 +55,7 @@ const View = () => {
             <CateTitle>독서날짜</CateTitle>
             <DateBox>
               <div>{bookInfo.startDate}</div>
-              <div className="testtest">{bookInfo.endDate}</div>
+              <div className="endDay">{bookInfo.endDate}</div>
             </DateBox>
           </Category>
           <MemoBox>
@@ -148,7 +148,7 @@ const DateBox = styled.div`
   }
 
 
-  .testtest:before {
+  .endDay:before {
     content:'ㅡ';
     padding: 0 15px;
     color: #666;

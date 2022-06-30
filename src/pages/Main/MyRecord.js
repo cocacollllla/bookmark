@@ -30,7 +30,7 @@ const MyRecord = () => {
   useEffect(() => {
     
 
-    dbService.collection('test').get().then((querySnapshot) => {
+    dbService.collection('book').get().then((querySnapshot) => {
       let productItems = [];
       querySnapshot.forEach((doc) => {
         productItems = [...productItems, { docId:doc.id, ...doc.data()} ]

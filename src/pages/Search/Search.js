@@ -61,7 +61,7 @@ const Search = () => {
             <ListResult bookList={searchResultList} />
             {page >= 2 && <BsArrowUpCircleFill className="topBtn" onClick={scrollToTop} />}
           </BookList>
-          {totalResult !== searchResultList.length && <Target loading={loading} setPage={setPage} />}
+          {(totalResult !== searchResultList.length && searchResultList.length !== 0) && <Target loading={loading} setPage={setPage} />}
         </>
       )
       }  
