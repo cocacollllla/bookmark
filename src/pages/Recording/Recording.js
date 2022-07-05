@@ -190,11 +190,12 @@ const Recording = () => {
                 <DateBox>
                   <div className="pickDate">
                     <FiCalendar className="calendarIcon" />
-                    <DatePicker selected={typeof bookInfo.startDate === 'string' ? new Date(bookInfo.startDate) : bookInfo.startDate} dateFormat="yyyy-MM-dd" onChange={(date) => setBookInfo({...bookInfo, startDate: date})} />
+                    <DatePicker selected={typeof bookInfo.startDate === 'string' ? new Date(bookInfo.startDate) : bookInfo.startDate} dateFormat="yyyy-MM-dd" onFocus={e => e.target.blur()} onChange={(date) => setBookInfo({...bookInfo, startDate: date})} />
                   </div>
+                  <span>ㅡ</span>
                   <div className="pickDate">
                     <FiCalendar className="calendarIcon" />
-                    <DatePicker selected={typeof bookInfo.endDate === 'string' ? new Date(bookInfo.endDate) : bookInfo.endDate} dateFormat="yyyy-MM-dd" onChange={(date) => setBookInfo({...bookInfo, endDate: date})} />
+                    <DatePicker selected={typeof bookInfo.endDate === 'string' ? new Date(bookInfo.endDate) : bookInfo.endDate} dateFormat="yyyy-MM-dd" onFocus={e => e.target.blur()} onChange={(date) => setBookInfo({...bookInfo, endDate: date})} />
                   </div>
                 </DateBox>
               </div>
@@ -263,11 +264,6 @@ const DateBox = styled.div`
     display: flex;
     align-items: center;
 
-    &:last-child:before {
-      content: "ㅡ";
-      padding: 0 15px;
-      color: #666;
-    }
   }
 
   .calendarIcon {
