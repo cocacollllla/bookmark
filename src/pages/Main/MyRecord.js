@@ -8,18 +8,19 @@ import moment from 'moment';
 import { dbService } from '../../firebase';
 import List from './List';
 
+const getMonth = () => {
+  const mm = window.sessionStorage.getItem('currentMonth');
+  if(mm === null){
+    return moment()
+  } else {
+    return moment(mm, "MM-YYYY");
+  }
+}
+
 const MyRecord = () => {
-  const [value, setValue] = useState(moment());
+  const [value, setValue] = useState(() => getMonth());
   const [bookList, setBookList] = useState([]);
   const [tab, setTab] = useState(() => { return Number(window.sessionStorage.getItem('view')) || 0});
-
-  // function storageF() {
-  //   if(Number(window.sessionStorage.getItem('view')) !== 0){
-  //     return 1
-  //   } else {
-  //     return 0
-  //   }
-  // };
 
   const returnToday = () => setValue(moment());
   const handleClickDay = (day) => setValue(day);
@@ -44,6 +45,10 @@ const MyRecord = () => {
   useEffect(() => {
     window.sessionStorage.setItem("view", tab);
   }, [tab]);
+
+  useEffect(() => {
+    window.sessionStorage.setItem("currentMonth", value.format('MM-YYYY'));
+  }, [value])
 
   const clickTab = (el) => {
     setTab(el);

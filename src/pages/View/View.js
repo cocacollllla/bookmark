@@ -20,6 +20,7 @@ const View = () => {
       setBookInfo(doc.data());
       setLoading(false);
     });
+    window.scrollTo({top: 0})
   }, [id]);
 
 
@@ -33,11 +34,6 @@ const View = () => {
     }
     
   }
-
-
-
-
-
 
   return (
     <ViewWrap>
@@ -63,16 +59,18 @@ const View = () => {
             <Memo>{bookInfo.memo}</Memo>
           </MemoBox>
 
-          <div>
-            <CateTitle>책갈피</CateTitle>
-            {bookInfo.bookmark && bookInfo.bookmark.map(el => (
-              <BookMarkBox key={el.id}>
-                {el.string ? <div>{el.text}</div> : <div><img src={el.image} alt="" /></div>}
-                <Page>p. {el.page}</Page>
-              </BookMarkBox>
-            ))}
-            
-          </div>
+          {bookInfo.bookmark.length !== 0 && 
+            <div>
+              <CateTitle>책갈피</CateTitle>
+              {bookInfo.bookmark && bookInfo.bookmark.map(el => (
+                <BookMarkBox key={el.id}>
+                  {el.string ? <div>{el.text}</div> : <div><img src={el.image} alt="" /></div>}
+                  <Page>p. {el.page}</Page>
+                </BookMarkBox>
+              ))}
+              
+            </div>
+          }
         </InfoBottom>
 
         
