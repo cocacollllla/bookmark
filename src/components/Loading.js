@@ -1,17 +1,17 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import React from "react";
+import styled, { keyframes } from "styled-components";
 
-const Loading = ({full}) => {
+const Loading = ({ mini }) => {
   return (
-    <LoadingWrap full={full}>
+    <LoadingWrap mini={mini}>
       <div>
         <div className="dot dot-a" />
         <div className="dot dot-b" />
         <div className="dot dot-c" />
       </div>
     </LoadingWrap>
-  )
-}
+  );
+};
 
 export default Loading;
 
@@ -26,11 +26,9 @@ const load = keyframes`
   }
 `;
 
-
-
 const LoadingWrap = styled.div`
   width:100%;
-  height: ${props => props.full ? "100vh" : "auto"};
+  height: ${(props) => (props.mini ? "auto" : "100%")};
   display:flex;
   align-items: center;
   justify-content: center;
